@@ -7,7 +7,7 @@ for i in range(n):
     members = []
     # 개인이면
     if(memberN==1):
-        members.append(input())
+        members.append(team)
     else:
         for j in range(memberN):
             members.append(input())
