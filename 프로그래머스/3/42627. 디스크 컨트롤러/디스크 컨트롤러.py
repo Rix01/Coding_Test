@@ -4,7 +4,7 @@ def solution(jobs):
     answer = 0
     now = 0 # 현재 시간
     complete = 0 # 완료한 프로세스
-    preTime = -1 # 전 프로세스의 요청 시간
+    preTime = -1 # 전 프로세스 완료 시간
     waitingHeap = []
 
     while(complete<len(jobs)):
