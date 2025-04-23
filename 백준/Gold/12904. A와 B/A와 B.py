@@ -4,8 +4,10 @@ input = sys.stdin.readline
 s = list(input().strip())
 t = list(input().strip())
 
+judge = len(t) - len(s)
+
 # t에서 거꾸로 s가 가능한지 여부 판단
-for i in range(len(t)-1, len(s)-1, -1):
+for _ in range(judge):
     if t[-1] == 'A':
         t.pop()
     elif t[-1] == 'B':
