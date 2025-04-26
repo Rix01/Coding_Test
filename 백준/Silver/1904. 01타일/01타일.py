@@ -3,7 +3,7 @@ input = sys.stdin.readline
 
 n = int(input())
 
-dp = [0]*1000001
+dp = [0]*(n+2)
 # dp[n] = dp[n-1] + dp[n-2]
 dp[1] = 1
 dp[2] = 2
