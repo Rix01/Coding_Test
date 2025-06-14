@@ -1,19 +1,14 @@
-import sys
-sys.setrecursionlimit(10**6)
+def power_iter(a, b, c):
+    result = 1
+    a = a % c  # 처음부터 모듈러 연산 적용
+
+    while b > 0:
+        if b % 2 == 1:        # b가 홀수일 경우
+            result = (result * a) % c
+        a = (a * a) % c       # a 제곱
+        b = b // 2            # b 절반
+
+    return result
 
 a, b, c = map(int, input().split())
-# 단순하게 하면 시간 초과 => 모듈러 연산을 해줘야 함
-
-# 재귀를 통해 구현
-def power(a,b,c):
-    if(b==0): return 1  # b가 0이면 1
-
-    half = power(a,b//2,c)
-    res = (half*half)%c
-
-    # b가 홀수일 경우엔 (a%c) 더 곱해줌
-    if(b%2==1):
-        return (res*(a%c))%c
-    return res
-
-print(power(a,b,c))
+print(power_iter(a,b,c))
