@@ -1,18 +1,17 @@
 import sys
+input = sys.stdin.readline
 
-n, m = map(int, sys.stdin.readline().split())
-pokeName = {}
-pokeNum = {}
+m, n = map(int, input().split())
+pokemon_num = dict()
+pokemon_name = dict()
+for i in range(1, m+1):
+    pokemon = input().rstrip()
+    pokemon_num[i] = pokemon
+    pokemon_name[pokemon] = i
 
-for idx in range(1, n+1):
-    pokemon = sys.stdin.readline().rstrip()
-    pokeNum[idx] = pokemon
-    pokeName[pokemon] = idx
-
-for q in range(m):
-    quiz = sys.stdin.readline().rstrip()
-    # 알파벳이라면 번호 출력
+for _ in range(n):
+    quiz = input().rstrip()
     if(quiz.isalpha()):
-        sys.stdout.write(str(pokeName[quiz])+"\n")
-    else:
-        sys.stdout.write(pokeNum[int(quiz)]+"\n")
+        print(pokemon_name[quiz])
+    elif(quiz.isdigit()):
+        print(pokemon_num[int(quiz)])
