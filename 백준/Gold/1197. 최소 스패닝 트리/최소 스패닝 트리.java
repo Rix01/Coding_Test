@@ -31,11 +31,7 @@ public class Main {
   }
 
   static void union(int x, int y) {
-    x = find(x);
-    y = find(y);
-    if (x != y) {
       parent[y] = x;
-    }
   }
 
   static int kruskal() {
@@ -47,8 +43,12 @@ public class Main {
 
     // 돌면서 수행
     for(Edge edge: edges) {
-      if(find(edge.start) != find(edge.end)) {
-        union(edge.start, edge.end);
+      int rootStart = find(edge.start);
+      int rootEnd = find(edge.end);
+      // 부모 노드 같지 않으면
+      if(rootStart != rootEnd) {
+        // 합침
+        union(rootStart, rootEnd);
         totalCost +=  edge.weight;
         connectCount++;
 
