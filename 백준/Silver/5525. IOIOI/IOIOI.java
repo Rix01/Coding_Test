@@ -8,24 +8,27 @@ public class Main {
 
         int n = Integer.parseInt(br.readLine());
         int m = Integer.parseInt(br.readLine());
-        String s = br.readLine();
+        char[] s = br.readLine().toCharArray(); // 인덱스별 비교 위해 char[]로
 
-        // Pn부터 만들기
-        StringBuilder sb = new StringBuilder("IOI");
-        for(int i = 0; i < n-1; i++) {
-            sb.append("OI");
-        }
+        int answer = 0;
+        int patternCount = 0;
 
-        // Pn의 길이
-        int pnLen = sb.length();
-        int count = 0;
-        for(int i = 0; i < s.length() - pnLen + 1; i++) {
-            if(s.substring(i, i+pnLen).equals(sb.toString())) {
-                count += 1;
+        for(int i = 1; i < m - 1; i++) {
+            if(s[i-1] == 'I' && s[i] == 'O' && s[i+1] == 'I') {
+                patternCount++;
+
+                if(patternCount >= n) {
+                    answer++;
+                }
+
+                i++;    // 여기에서 ++을 해줘서 2만큼 점프하게 하는 것
+            }
+            else {
+                patternCount = 0;   // 0으로 초기화
             }
         }
 
-        bw.write(String.valueOf(count));
+        bw.write(String.valueOf(answer));
         bw.close();
     }
 }
