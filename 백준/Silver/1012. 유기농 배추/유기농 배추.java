@@ -2,67 +2,75 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
+    public static int[] dx = {-1, 1, 0, 0};
+    public static int[] dy = {0, 0, -1, 1};
+    public static int m;
+    public static int n;
+    public static int[][] farm;
 
-  static int t;
-  static int m, n, k;
-  static int[][] arr;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
-  static int[] dx = {0, 0, -1, 1};
-  static int[] dy = {-1, 1, 0, 0};
+        int T = Integer.parseInt(br.readLine());
 
-  public static void bfs(int y, int x) {
-    Queue<int[]> queue = new LinkedList<>();
-    queue.offer(new int[] {y, x});
-    arr[y][x] = 0;  // 방문 표시
+        for(int i = 0; i < T; i++) {
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            m = Integer.parseInt(st.nextToken()); // 가로(열)
+            n = Integer.parseInt(st.nextToken()); // 세로(행)
+            int k = Integer.parseInt(st.nextToken());
+            int result = 0;
+            farm = new int[n][m];
 
-    while(!queue.isEmpty()) {
-      int[] now = queue.poll();
-      int nowX = now[1], nowY = now[0];
-      for(int i = 0; i < 4; i++) {
-        int nx = nowX + dx[i];
-        int ny = nowY + dy[i];
-        if(nx >= 0 && nx < m && ny >= 0 && ny < n) {
-          if(arr[ny][nx] == 1) {
-            arr[ny][nx] = 0;
-            queue.offer(new int[] {ny, nx});
-          }
+            // 배추밭 표시
+            for(int j = 0; j < k; j++) {
+                st = new StringTokenizer(br.readLine());
+                int x = Integer.parseInt(st.nextToken());
+                int y = Integer.parseInt(st.nextToken());
+                farm[y][x] = 1;
+            }
+
+            for(int r = 0; r < n; r++) {
+                for(int c = 0; c < m; c++) {
+                    if(farm[r][c] == 1) {
+                        Position position = new Position(r, c);
+                        bfs(position);
+                        result++;
+                    }
+                }
+            }
+            bw.write(result + "\n");
         }
-      }
+        bw.close();
     }
-  }
 
-  public static void main(String[] args) throws IOException {
-    BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(System.out));
+    private static void bfs(Position position) {
+        Deque<Position> queue = new ArrayDeque<>();
+        queue.addLast(position);
+        farm[position.r][position.c] = 0;
 
-    t = Integer.parseInt(reader.readLine());
+        while(!queue.isEmpty()) {
+            Position currentPosition = queue.pollFirst();
 
-    for (int i = 0; i < t; i++) {
-      StringTokenizer tokenizer = new StringTokenizer(reader.readLine());
-      m = Integer.parseInt(tokenizer.nextToken());
-      n = Integer.parseInt(tokenizer.nextToken());
-      k = Integer.parseInt(tokenizer.nextToken());
+            for(int i = 0; i < 4; i++) {
+                int currentC = currentPosition.c + dx[i];
+                int currentR = currentPosition.r + dy[i];
 
-      arr = new int[n][m];
-      int count = 0;
-
-      for (int j = 0; j < k; j++) {
-        tokenizer = new StringTokenizer(reader.readLine());
-        int x = Integer.parseInt(tokenizer.nextToken());
-        int y = Integer.parseInt(tokenizer.nextToken());
-        arr[y][x] = 1;  // 배추 표시
-      }
-
-      for(int row = 0; row < n; row++){
-        for(int col = 0; col < m; col++){
-          if(arr[row][col] == 1) {
-            count++;
-            bfs(row, col);
-          }
+                if(currentC >= 0 && currentC < m && currentR >=0 && currentR < n && farm[currentR][currentC] == 1 ) {
+                    queue.addLast(new Position(currentR, currentC));
+                    farm[currentR][currentC] = 0;
+                }
+            }
         }
-      }
-      writer.write(count+"\n");
     }
-    writer.close();
-  }
+
+    private static class Position {
+        int r;
+        int c;
+
+        public Position(int r, int c) {
+            this.r = r;
+            this.c = c;
+        }
+    }
 }
