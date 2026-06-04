@@ -2,71 +2,75 @@ import java.io.*;
 import java.util.*;
 
 class Solution {
-
+    // 상하좌우
+    int[] dc = {1, -1, 0, 0};
+    int[] dr = {0, 0, 1, -1};
+    
+    
     public int solution(int[][] maps) {
+        int n = maps[0].length; // 가로(열)
+        int m = maps.length; // 세로(행)
         
-        int n = maps.length;
-        int m = maps[0].length;
-        
-        boolean[][] visited = new boolean[n][m];
-        
-        int[] dx = {-1, 1, 0, 0};
-        int[] dy = {0, 0, -1, 1};
+        Position startPos = new Position(0, 0, 1); // 시작 좌표
         
         Deque<Position> queue = new ArrayDeque<>();
-        
-        Position startPosition = new Position(0, 0, 1);
-        visited[0][0] = true;
-        queue.addLast(startPosition);
+        queue.addLast(startPos);
         
         while(!queue.isEmpty()) {
-            Position currentPosition = queue.pollFirst();
-            int x = currentPosition.getX();
-            int y = currentPosition.getY();
-            int value = currentPosition.getValue();
+            Position nowPos = queue.pollFirst();
+            int nowR = nowPos.r;
+            int nowC = nowPos.c;
+            int nowValue = nowPos.value;
             
-            if(x == n-1 && y == m -1) {
-                return value;
-            }
-            
+            // 상하좌우 탐색
             for(int i = 0; i < 4; i++) {
-                int nextX = x + dx[i];
-                int nextY = y + dy[i];
+                int nextR = nowR + dr[i];
+                int nextC = nowC + dc[i];
                 
-                
-                if(nextX >= 0 && nextX < n && nextY >= 0 && nextY < m) {
-                    if(maps[nextX][nextY] == 1 && !visited[nextX][nextY]) {
-                        visited[nextX][nextY] = true;
-                        Position canGo = new Position(nextX, nextY, value + 1);
-                        queue.addLast(canGo);
-                    }
+                // 범위 안 넘거나 maps 값이 0이 아니면
+                if(nextR >= 0 && nextR < m && nextC >= 0 && nextC < n && maps[nextR][nextC] == 1) {
+                    maps[nextR][nextC] =  nowValue + 1;
+                    queue.addLast(new Position(nextR, nextC, nowValue + 1));
                 }
             }
         }
-        return -1;
+        
+        if(maps[m-1][n-1] == 1) {
+            return -1;
+        }
+        
+        return maps[m-1][n-1];
     }
     
-    public static class Position {
-        public int x;
-        public int y;
-        public int value;
+    class Position {
+        int r;
+        int c;
+        int value;
         
-        public Position(int x, int y, int value) {
-            this.x = x;
-            this.y = y;
+        Position(int r, int c, int value) {
+            this.r = r;
+            this.c = c;
             this.value = value;
         }
-        
-        public int getX() {
-            return x;
-        }
-        
-        public int getY() {
-            return y;
-        }
-        
-        public int getValue() {
-            return value;
-        }
     }
+    
 }
+
+/*
+    1이 갈 수 있는 곳
+    0이 벽
+    
+    
+    [1, 0, 1, 1, 1]
+    [1, 0, 1, 0, 1]
+    [1, 0, 1, 1, 1]
+    [1, 1, 1, 0, 1]
+    [0, 0, 0, 0, 1]
+    
+    첫 좌표 시작
+    상하좌우 탐색
+    있으면 큐에 다 넣기
+        해당 좌표 maps에 값 비교해서 이전 값이랑 이전 좌표 +1 이랑 비교해서 기록
+    m-1, n-1 값 출력
+    
+*/
