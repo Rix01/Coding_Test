@@ -13,6 +13,7 @@ class Solution {
         hpMap.put(Mineral.DIAMOND, diaHp);
         hpMap.put(Mineral.IRON, ironHp);
         hpMap.put(Mineral.STONE, stoneHp);
+        // ------------------------------
         
         // 곡괭이 개수
         int pickCnt = 0;
@@ -98,8 +99,8 @@ class Solution {
     }
     
     enum Mineral {
-        DIAMOND("diamond", 25),
-        IRON("iron", 5),
+        DIAMOND("diamond", 3),
+        IRON("iron", 2),
         STONE("stone", 1);
         
         String name;
