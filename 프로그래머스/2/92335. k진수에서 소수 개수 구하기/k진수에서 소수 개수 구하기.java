@@ -12,8 +12,6 @@ class Solution {
         
         // k진수로 바꾼 이후에 0 기준으로 나누기 String -> String[]
         String[] splitByZero = kString.split("0+");
-        // 000 같은 경우일 때
-        
         
         // 소수 판별하기 String[]을 int로 반환한 후, 소수 맞으면 answer에 넣기
         for(String s:splitByZero) {
