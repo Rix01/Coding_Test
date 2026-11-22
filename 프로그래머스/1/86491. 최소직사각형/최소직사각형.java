@@ -2,35 +2,34 @@ import java.io.*;
 import java.util.*;
 
 class Solution {
-    int[] longLen;
-    int[] shortLen;
-    
     public int solution(int[][] sizes) {
-        longLen = new int[sizes.length];
-        shortLen = new int[sizes.length];
+        int[] bigs = new int[sizes.length];
+        int[] smalls = new int[sizes.length];
         
-        // 둘 중 긴 변 long에 짧은 변 short에
         int idx = 0;
-        for(int[] len: sizes) {
-            longLen[idx] = Math.max(len[0], len[1]);
-            shortLen[idx] = Math.min(len[0], len[1]);
+        for(int[] size:sizes) {
+            if(size[0] >= size[1]) {
+                bigs[idx] = size[0];
+                smalls[idx] = size[1];
+            } else {
+                bigs[idx] = size[1];
+                smalls[idx] = size[0];
+            }
             idx++;
         }
         
-        int maxLong = 0;
-        for(int i = 0; i < sizes.length; i++) {
-            if(maxLong < longLen[i]) {
-                maxLong = longLen[i];
-            }
-        }
-        
-        int maxShort = 0;
-        for(int i = 0; i < sizes.length; i++) {
-            if(maxShort < shortLen[i]) {
-                maxShort = shortLen[i];
-            }
-        }
-        
-        return maxShort * maxLong;
+        Arrays.sort(bigs);
+        Arrays.sort(smalls);
+
+        return bigs[sizes.length - 1] * smalls[sizes.length - 1];
     }
 }
+
+/*
+큰 값을 앞에다!
+1. 60 50
+2. 70 30
+3. 60 30
+4. 80 40
+>> 80 50
+*/
