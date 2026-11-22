@@ -4,6 +4,7 @@ import java.util.*;
 class Solution {
     public int solution(int[] citations) {
         Integer[] cits = new Integer[citations.length];
+        
         for(int i = 0; i < cits.length; i++) {
             cits[i] = citations[i];
         }
