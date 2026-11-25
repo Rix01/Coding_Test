@@ -16,6 +16,7 @@ class Solution {
             for(int j = 0; j < picture[0].length; j++) {
                 if(picture[i][j] != 0 && picture[i][j] != -1) {
                     int nowAreaNumber = picture[i][j];
+                    picture[i][j] = -1;
                     areaCount++;
                     bfs(new Position(i, j), nowAreaNumber);
                 }
@@ -26,7 +27,7 @@ class Solution {
         
         int[] answer = new int[2];
         answer[0] = areaCount;
-        answer[1] = areas.get(0) - 1;
+        answer[1] = areas.get(0);
         
         return answer;
     }
@@ -36,13 +37,12 @@ class Solution {
         Deque<Position> queue = new ArrayDeque<>();
         queue.addLast(pos);
         
-        int count = 0; // 해당 pos, nowAreaNumber로 시작해서 카운트 시작하고 다 끝나면 areas에 기록
+        int count = 1; // 해당 pos, nowAreaNumber로 시작해서 카운트 시작하고 다 끝나면 areas에 기록
         
         while(!queue.isEmpty()) {
             Position now = queue.pollFirst();
             int nowR = now.r;
             int nowC = now.c;
-            count++;
             
             for(int i = 0; i < 4; i++) {
                 int nextR = nowR + dr[i];
@@ -52,6 +52,7 @@ class Solution {
                     // nowAreaNumber랑 일치하면 -1로 바꾸고 큐에 넣기
                     if(picture[nextR][nextC] == nowAreaNumber) {
                         picture[nextR][nextC] = -1;
+                        count++;
                         queue.addLast(new Position(nextR, nextC));
                     }
                 }
